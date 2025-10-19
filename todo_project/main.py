@@ -1,5 +1,5 @@
 from flask import Flask, request, render_template
-
+print("Кнопка ")
 app = Flask(__name__)
 
 # Два списка: обычные задачи и выполненные
