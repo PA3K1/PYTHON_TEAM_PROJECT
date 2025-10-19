@@ -1,6 +1,7 @@
 from flask import Flask, request, render_template
 print("Кнопка ")
 app = Flask(__name__)
+print("Кнопка 2")
 
 # Два списка: обычные задачи и выполненные
 tasks = []
