@@ -4,20 +4,35 @@
     <title>Todo List</title>
     <link rel="stylesheet" href="/static/style.css">
 </head>
-<body class="page">
-    <div class="todo">
-        <h1 class="todo__title">Мой Todo List</h1>
+<body>
+    <div class="container">
+        <h1>Мой Todo List</h1>
 
-        <form class="todo-form" method="POST" action="/add">
-            <input class="todo-form__input" type="text" name="task" placeholder="Новая задача" required>
-            <button class="todo-form__button" type="submit">Добавить</button>
+        <form method="POST" action="/add">
+            <input type="text" name="task" placeholder="Новая задача" required>
+            <button type="submit">Добавить</button>
         </form>
 
-        <ul class="todo-list">
+        <!-- Активные задачи -->
+        <h2>Активные задачи:</h2>
+        <ul class="task-list">
             {% for task in tasks %}
-            <li class="todo-list__item">
-                <span class="todo-list__text">{{ task }}</span>
-                <a href="/delete/{{ loop.index0 }}" class="todo-list__delete">❌</a>
+            <li class="task-list__item">
+                <span class="task-list__text">{{ task }}</span>
+                <div>
+                    <a href="/complete/{{ loop.index0 }}" class="task-list__complete">✅</a>
+                    <a href="/delete/{{ loop.index0 }}" class="task-list__delete">❌</a>
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+
+        <!-- Выполненные задачи -->
+        <h2>Выполненные задачи:</h2>
+        <ul class="completed-list">
+            {% for task in completed_tasks %}
+            <li class="completed-list__item">
+                <span class="completed-list__text">{{ task }}</span>
             </li>
             {% endfor %}
         </ul>
