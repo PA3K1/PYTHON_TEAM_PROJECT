@@ -1,89 +1,26 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ToDo List</title>
-    <link rel="stylesheet" href="static/style.css">
+    <title>Todo List</title>
+    <link rel="stylesheet" href="/static/style.css">
 </head>
-<body>
-    <div class="container">
-        <header class="header">
-            <h1><i class="fas fa-tasks"></i> Мой ToDo List</h1>
-            <p>Организуй свои задачи эффективно</p>
-        </header>
+<body class="page">
+    <div class="todo">
+        <h1 class="todo__title">Мой Todo List</h1>
 
-        <div class="todo-card">
-            <!-- Форма добавления -->
-            <form class="add-form" action="{{ url_for('add') }}" method="POST">
-                <div class="input-group">
-                    <input type="text"
-                           name="text"
-                           placeholder="Добавьте новую задачу..."
-                           class="task-input"
-                           required>
-                    <button type="submit" class="add-btn">
-                        <i class="fas fa-plus"></i> Добавить
-                    </button>
-                </div>
-            </form>
+        <form class="todo-form" method="POST" action="/add">
+            <input class="todo-form__input" type="text" name="task" placeholder="Новая задача" required>
+            <button class="todo-form__button" type="submit">Добавить</button>
+        </form>
 
-            <!-- Список задач -->
-            <div class="tasks-section">
-                <div class="tasks-header">
-                    <h3>Мои задачи</h3>
-                    <span class="tasks-count">{{ tasks|length }} задач</span>
-                </div>
-
-                {% if tasks %}
-                <ul class="tasks-list">
-                    {% for task in tasks %}
-                    <li class="task-item {% if task[2] %}completed{% endif %}">
-                        <div class="task-content">
-                            <!-- Чекбокс как ссылка -->
-                            <a href="{{ url_for('toggle', task_id=task[0]) }}" class="checkbox-wrapper">
-                                <div class="custom-checkbox {% if task[2] %}checked{% endif %}">
-                                    {% if task[2] %}
-                                    <i class="fas fa-check"></i>
-                                    {% endif %}
-                                </div>
-                            </a>
-                            <span class="task-text">{{ task[1] }}</span>
-                        </div>
-                        <div class="task-actions">
-                            <!-- Кнопка удаления как ссылка -->
-                            <a href="{{ url_for('delete', task_id=task[0]) }}" class="delete-btn"
-                               onclick="return confirm('Удалить эту задачу?')">
-                                <i class="fas fa-trash"></i>
-                            </a>
-                        </div>
-                    </li>
-                    {% endfor %}
-                </ul>
-                {% else %}
-                <div class="empty-state">
-                    <i class="fas fa-clipboard-list fa-3x"></i>
-                    <p>Пока нет задач. Добавьте первую!</p>
-                </div>
-                {% endif %}
-            </div>
-
-            <!-- Статистика -->
-            <div class="stats">
-                <div class="stat-item">
-                    <span class="stat-number">{{ tasks|selectattr("2", "equalto", False)|list|length }}</span>
-                    <span class="stat-label">активных</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-number">{{ tasks|selectattr("2")|list|length }}</span>
-                    <span class="stat-label">выполнено</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-number">{{ tasks|length }}</span>
-                    <span class="stat-label">всего</span>
-                </div>
-            </div>
-        </div>
+        <ul class="todo-list">
+            {% for task in tasks %}
+            <li class="todo-list__item">
+                <span class="todo-list__text">{{ task }}</span>
+                <a href="/delete/{{ loop.index0 }}" class="todo-list__delete">❌</a>
+            </li>
+            {% endfor %}
+        </ul>
     </div>
 </body>
 </html>
