@@ -8,18 +8,24 @@
     <div class="container">
         <h1>Мой Todo List</h1>
 
+        <!-- Форма добавления -->
         <form method="POST" action="/add">
             <input type="text" name="task" placeholder="Новая задача" required>
             <button type="submit">Добавить</button>
         </form>
 
         <!-- Активные задачи -->
-        <h2>Активные задачи:</h2>
+        <h2>Активные задачи (в процессе):</h2>
         <ul class="task-list">
-            {% for task in tasks %}
-            <li class="task-list__item">
+            {% for task in active_tasks %}
+            <li class="task-list__item task-list__item--active">
                 <span class="task-list__text">{{ task }}</span>
-                <div>
+                <div class="task-actions">
+                    <!-- Форма редактирования -->
+                    <form method="POST" action="/edit/{{ loop.index0 }}" class="edit-form">
+                        <input type="text" name="edited_task" value="{{ task }}" class="edit-input">
+                        <button type="submit" class="task-list__edit">✏️</button>
+                    </form>
                     <a href="/complete/{{ loop.index0 }}" class="task-list__complete">✅</a>
                     <a href="/delete/{{ loop.index0 }}" class="task-list__delete">❌</a>
                 </div>
@@ -29,10 +35,20 @@
 
         <!-- Выполненные задачи -->
         <h2>Выполненные задачи:</h2>
-        <ul class="completed-list">
+        <ul class="task-list">
             {% for task in completed_tasks %}
-            <li class="completed-list__item">
-                <span class="completed-list__text">{{ task }}</span>
+            <li class="task-list__item task-list__item--completed">
+                <span class="task-list__text">{{ task }}</span>
+            </li>
+            {% endfor %}
+        </ul>
+
+        <!-- Удаленные задачи -->
+        <h2>Удаленные задачи:</h2>
+        <ul class="task-list">
+            {% for task in deleted_tasks %}
+            <li class="task-list__item task-list__item--deleted">
+                <span class="task-list__text">{{ task }}</span>
             </li>
             {% endfor %}
         </ul>
