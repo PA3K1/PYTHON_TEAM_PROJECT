@@ -15,20 +15,26 @@
         </form>
 
         <!-- Активные задачи -->
-        <h2>Активные задачи (в процессе):</h2>
+        <h2>Активные задачи:</h2>
         <ul class="task-list">
             {% for task in active_tasks %}
             <li class="task-list__item task-list__item--active">
-                <span class="task-list__text">{{ task }}</span>
-                <div class="task-actions">
-                    <!-- Форма редактирования -->
+                {% if edit_id == loop.index0 %}
+                    <!-- Форма редактирования (показывается когда edit_id совпадает) -->
                     <form method="POST" action="/edit/{{ loop.index0 }}" class="edit-form">
-                        <input type="text" name="edited_task" value="{{ task }}" class="edit-input">
-                        <button type="submit" class="task-list__edit">✏️</button>
+                        <input type="text" name="edited_task" value="{{ task }}" class="edit-input" required>
+                        <button type="submit">Сохранить</button>
+                        <a href="/">Отмена</a>
                     </form>
-                    <a href="/complete/{{ loop.index0 }}" class="task-list__complete">✅</a>
-                    <a href="/delete/{{ loop.index0 }}" class="task-list__delete">❌</a>
-                </div>
+                {% else %}
+                    <!-- Обычный вид задачи -->
+                    <span class="task-list__text">{{ task }}</span>
+                    <div class="task-actions">
+                        <a href="/?edit={{ loop.index0 }}" class="task-list__edit">✏️</a>
+                        <a href="/complete/{{ loop.index0 }}" class="task-list__complete">✅</a>
+                        <a href="/delete/{{ loop.index0 }}" class="task-list__delete">❌</a>
+                    </div>
+                {% endif %}
             </li>
             {% endfor %}
         </ul>
