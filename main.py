@@ -14,7 +14,7 @@ def index():
                          active_tasks=active_tasks,
                          completed_tasks=completed_tasks,
                          deleted_tasks=deleted_tasks,
-     edit_id=edit_id)
+                         edit_id=edit_id)
 
 @app.route('/add', methods=['POST'])
 def add_task():
